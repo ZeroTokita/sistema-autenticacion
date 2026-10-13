@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %}Mi panel · AuthCloud{% endblock %}
+{% block contenido %}
+<h1>Panel principal</h1>
+<p class="descripcion">Tu sesión se encuentra activa.</p>
+<div class="resumen">
+    <div><small>Nombre del perfil (MongoDB)</small><strong>{{ perfil.get('nombre', 'Usuario') }}</strong></div>
+    <div><small>Correo (MySQL)</small><strong>{{ current_user.correo }}</strong></div>
+    <div><small>Identificador</small><strong>#{{ current_user.id }}</strong></div>
+    <div><small>Rol</small><strong>{{ current_user.rol }}</strong></div>
+    <div><small>Biografía</small><span>{{ perfil.get('biografia') or 'Sin biografía todavía.' }}</span></div>
+</div>
+<div class="acciones">
+    <a class="boton-secundario" href="{{ url_for('perfil') }}">Editar mi perfil</a>
+    {% if current_user.rol == 'admin' %}
+        <a class="boton-secundario" href="{{ url_for('admin') }}">Ver administración</a>
+    {% endif %}
+</div>
+<form method="POST" action="{{ url_for('logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button class="peligro" type="submit">Cerrar sesión</button>
+</form>
+{% endblock %}

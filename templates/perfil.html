@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block titulo %}Editar perfil · AuthCloud{% endblock %}
+{% block contenido %}
+<h1>Editar mi perfil</h1>
+<p class="descripcion">Los cambios se guardan en MongoDB Atlas.</p>
+<form method="POST" action="{{ url_for('perfil') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="nombre">Nombre completo</label>
+    <input id="nombre" name="nombre" maxlength="80" required autocomplete="name"
+           value="{{ request.form.get('nombre', perfil.get('nombre', '')) }}">
+    <label for="biografia">Biografía</label>
+    <textarea id="biografia" name="biografia" maxlength="500" rows="5">{{ request.form.get('biografia', perfil.get('biografia', '')) }}</textarea>
+    <p class="ayuda">Máximo 500 caracteres.</p>
+    <button type="submit" class="principal">Guardar cambios</button>
+</form>
+<p><a href="{{ url_for('panel') }}">← Volver al panel</a></p>
+{% endblock %}

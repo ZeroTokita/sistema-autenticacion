@@ -1,0 +1,9 @@
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    correo VARCHAR(190) NOT NULL UNIQUE,
+    clave_hash VARCHAR(255) NOT NULL,
+    rol ENUM('usuario', 'admin')
+        NOT NULL DEFAULT 'usuario',
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

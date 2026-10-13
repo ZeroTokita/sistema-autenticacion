@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Registro · AuthCloud{% endblock %}
+{% block contenido %}
+<h1>Crear cuenta</h1>
+<p class="descripcion">Regístrate para crear tu cuenta y tu perfil.</p>
+<form method="POST" action="{{ url_for('registro') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <label for="nombre">Nombre completo</label>
+    <input id="nombre" name="nombre" required maxlength="80" autocomplete="name"
+           value="{{ request.form.get('nombre', '') }}">
+
+    <label for="correo">Correo electrónico</label>
+    <input id="correo" name="correo" type="email" required maxlength="190" autocomplete="email"
+           value="{{ request.form.get('correo', '') }}">
+
+    <label for="clave">Contraseña</label>
+    <input id="clave" name="clave" type="password" required minlength="10"
+           autocomplete="new-password" aria-describedby="ayuda-clave">
+    <p id="ayuda-clave" class="ayuda">Mínimo 10 caracteres; máximo 72 bytes (bcrypt).</p>
+
+    <label for="confirmar">Confirmar contraseña</label>
+    <input id="confirmar" name="confirmar" type="password" required minlength="10"
+           autocomplete="new-password">
+
+    <button type="submit" class="principal">Registrarme</button>
+</form>
+<p class="enlace-pie">¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Iniciar sesión</a></p>
+{% endblock %}

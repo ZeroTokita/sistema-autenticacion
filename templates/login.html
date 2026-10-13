@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block titulo %}Iniciar sesión · AuthCloud{% endblock %}
+{% block contenido %}
+<h1>Iniciar sesión</h1>
+<p class="descripcion">Accede con el correo y la contraseña que registraste.</p>
+<form method="POST" action="{{ url_for('login') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="correo">Correo electrónico</label>
+    <input id="correo" name="correo" type="email" maxlength="190" required autocomplete="username"
+           value="{{ request.form.get('correo', '') }}">
+    <label for="clave">Contraseña</label>
+    <input id="clave" name="clave" type="password" required autocomplete="current-password">
+    <button class="principal" type="submit">Entrar</button>
+</form>
+<p class="enlace-pie">¿Aún no tienes cuenta? <a href="{{ url_for('registro') }}">Crear cuenta</a></p>
+{% endblock %}

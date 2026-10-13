@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block titulo %}Administración · AuthCloud{% endblock %}
+{% block contenido %}
+<h1>Administración</h1>
+<p class="descripcion">Acceso restringido a cuentas con rol <code>admin</code>.</p>
+<h2>Usuarios registrados</h2>
+<div class="tabla-scroll">
+<table>
+    <thead><tr><th>ID</th><th>Correo</th><th>Rol</th><th>Creado</th></tr></thead>
+    <tbody>
+    {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.correo }}</td>
+            <td>{{ usuario.rol }}</td>
+            <td>{{ usuario.creado_en }}</td>
+        </tr>
+    {% else %}
+        <tr><td colspan="4">No hay usuarios.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<h2>Últimas 20 actividades</h2>
+<div class="tabla-scroll">
+<table>
+    <thead><tr><th>Acción</th><th>Usuario ID</th><th>Fecha (UTC)</th></tr></thead>
+    <tbody>
+    {% for log in actividades %}
+        <tr>
+            <td>{{ log.accion }}</td>
+            <td>{{ log.usuario_id if log.usuario_id is not none else '—' }}</td>
+            <td>{{ log.fecha }}</td>
+        </tr>
+    {% else %}
+        <tr><td colspan="3">No hay actividades registradas.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<p><a href="{{ url_for('panel') }}">← Volver al panel</a></p>
+{% endblock %}

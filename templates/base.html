@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titulo %}Sistema de autenticación{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+    <header class="cabecera">
+        <div class="cabecera-contenido">
+            <a class="marca" href="{{ url_for('inicio') }}">AuthCloud</a>
+            <nav aria-label="Navegación principal">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('panel') }}">Panel</a>
+                    <a href="{{ url_for('perfil') }}">Mi perfil</a>
+                    {% if current_user.rol == 'admin' %}
+                        <a href="{{ url_for('admin') }}">Administración</a>
+                    {% endif %}
+                    <form class="salir" method="POST" action="{{ url_for('logout') }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="enlace" type="submit">Salir</button>
+                    </form>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Ingresar</a>
+                    <a href="{{ url_for('registro') }}">Registrarse</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+    <main class="tarjeta">
+        {% with mensajes = get_flashed_messages(with_categories=true) %}
+            {% for categoria, mensaje in mensajes %}
+                <div role="alert" class="mensaje {{ categoria }}">{{ mensaje }}</div>
+            {% endfor %}
+        {% endwith %}
+        {% block contenido %}{% endblock %}
+    </main>
+    <footer>Python + Flask · MySQL Clever Cloud · MongoDB Atlas</footer>
+</body>
+</html>
